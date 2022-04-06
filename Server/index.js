@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 
 const authRoute = require("./routes/auth");
-
+const UserRoute = require("./routes/user");
 mongoose.connect(process.env.MONGOOSEDB_UL, () => {
   console.log("Connected to mongo Db");
 });
@@ -17,6 +17,7 @@ app.use(express.json());
 
 //router
 app.use("/v1/auth", authRoute);
+app.use("/v1/user", UserRoute);
 app.listen(8000, () => {
   console.log("Server is runing");
 });

@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
-
+const jwt = require("jsonwebtoken");
 const authControllers = {
   registerUser: async (req, res) => {
     try {
@@ -31,7 +31,12 @@ const authControllers = {
         res.status(404).json("mật khẩu không đúng");
       }
       if (user && validPassword) {
-        res.status(200).json(user);
+        const data = req.body;
+        const accessToken = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: "30s",
+        });
+        const { password, ...other } = user._doc; // Loại bỏ password ra khỏi token
+        res.status(200).json({ ...other, accessToken });
       }
     } catch (error) {
       res.status(500).json(error);
