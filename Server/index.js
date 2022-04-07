@@ -14,7 +14,6 @@ mongoose.connect(process.env.MONGOOSEDB_UL, () => {
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
-console.log("tesstgit");
 
 //router
 app.use("/v1/auth", authRoute);

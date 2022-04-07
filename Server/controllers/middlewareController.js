@@ -1,3 +1,4 @@
+const res = require("express/lib/response");
 const jwt = require("jsonwebtoken");
 const middlewareController = {
   //verifyToken
@@ -18,6 +19,15 @@ const middlewareController = {
     } else {
       res.status(401).json("Chưa xác thực token");
     }
+  },
+  verifyTokenAndAdminAuth: (req, res, next) => {
+    middlewareController.verifyToken(req, res, () => {
+      if ((req.user.id = req.params.id || req.user.IsAdimin)) {
+        next();
+      } else {
+        res.status(403).json("Bạn không thể xóa người khác");
+      }
+    });
   },
 };
 module.exports = middlewareController;
